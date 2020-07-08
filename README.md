@@ -16,9 +16,9 @@ The approach used is the same described in *E. Calabrese, G. Taverni, C. Awai Ea
 vision sensor 3D human pose dataset,” in IEEE Conf. Comput. Vis. Pattern Recog. Workshops (CVPRW), 2019*.
 The convolutional neural network used for pose estimation is implemented according to the architecture described in the above mentioned paper.
 
-Training can be executed through *training_with_datagenerator.py*.
+Training can be executed through *Training_with_data_generator.py*.
 
 For testing purpouse two variants are presented:
 
-- *testing_without_conf* 
-- *testing_with_conf* in which a confidence threshold can be set on predicted positions probability.
+- *Testing_without_conf* 
+- *Testing_with_conf* in which a confidence threshold can be set on predicted positions probability.
