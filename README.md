@@ -1,4 +1,4 @@
-# 2/3D human pose estimation from event-camera based dataset
+# 2/3D human pose estimation through event-camera based dataset
 
 Human pose estimation is one of the main topics in Computer vision and Deep Learning fields. This repository describes the process of estimating human’s limbs positions using data from event camera.
 
