@@ -4,7 +4,7 @@ Human pose estimation is one of the main topics in Computer vision and Deep Lear
 
 ***Dataset***
 
-The dataset used is Dynamic Vision Sensor (DVS) 3D Human Pose Dataset in which 4 synchronized DVS cameras are used to record 33 specific movements from 17 differents subjects while Vicon motion capture system is used to generate marker positions in 3D space in order to get groundtruth. More info and description are available on website https://sites.google.com/view/dhp19/home, with a section for download.
+The dataset used is Dynamic Vision Sensor (DVS) 3D Human Pose Dataset in which 4 synchronized DVS cameras are used to record 33 specific movements from 17 different subjects while Vicon motion capture system is used to generate marker positions in 3D space in order to get groundtruth. More info and description are available on website https://sites.google.com/view/dhp19/home, with a section for download.
 
 ***Data preprocessing***
 
