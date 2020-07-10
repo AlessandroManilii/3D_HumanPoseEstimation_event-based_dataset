@@ -23,7 +23,8 @@ p_mat_cam2 = np.load('.../P_mtx/P3.npy')
 # Counter for data generator
 count=0
 
-minibatch = np.empty(shape=(num_of_frames, img_rows, img_cols))
+x_minibatch = np.empty(shape=(num_of_frames, img_rows, img_cols))
+y_minibatch = np.empty(shape=(num_of_frames, img_rows, img_cols, joints))
 
 # Data generator: x_train
 for subj in subjects:
@@ -42,11 +43,11 @@ for subj in subjects:
         for frame in range(frames):
           for cam_id in [2,3]:
             # x_train generation
-            minibatch[count%num_of_frames] = x_h5['DVS'][frame, :, :344, cam_id]            
+            x_minibatch[count%num_of_frames] = x_h5['DVS'][frame, :, :344, cam_id]            
             count += 1
             if ((count%num_of_frames) == 0):
               # Path to x files
-              np.save('/.../x{}.npy'.format(count//num_of_frames),minibatch)
+              np.save('/.../x{}.npy'.format(count//num_of_frames), x_minibatch)
               
   print('subject {}'.format(subj))
 
@@ -92,10 +93,10 @@ for subj in subjects:
               y_frame[h][w][j_id] = 1
               y_blur[:,:, j_id] = decay_mask(y_frame[:, :, j_id])
 
-            minibatch[count%num_of_frames] = y_blur
+            y_minibatch[count%num_of_frames] = y_blur
             count += 1 
             if ((count%num_of_frames) == 0):
               # Path where to save y files
-              np.save('/.../y{}.npy'.format(count//num_of_frames),minibatch)
+              np.save('/.../y{}.npy'.format(count//num_of_frames), y_minibatch)
           
     print('subject {}'.format(subj))
