@@ -69,33 +69,33 @@ for subj in subjects:
         # Create label mask (260x344x13 array with ones in correspondence to joints predicted positions )
         frames = y_h5['XYZ'].shape[0]
         
-          for frame in range(frames):
-            for cam_id in [2,3]:
-              # Load projection matrix for specific cam
-              if cam_id == 2:
-                p_mat_cam = p_mat_cam2
-              else:
-                p_mat_cam = p_mat_cam3
-                
-              # y_train generation
-              y_pos = np.zeros(shape=(2,joints))
-              y_homog = np.concatenate([y_h5['XYZ'][frame], np.ones([1, joints])], axis=0)
-              y_frame = np.zeros(shape=(img_rows,img_cols,joints))
-              y_blur = np.empty(shape=(260,344,13))
-              for j_id in range(joints):
-                y_pix_coords = np.matmul(p_mat_cam, y_homog[:,j_id])
-                y_pix_coords = y_pix_coords / y_pix_coords[-1]
-                h = (img_rows - y_pix_coords[1]).astype(np.int32)
-                w = y_pix_coords[0].astype(np.int32)
-                y_pos[1,j_id] = h
-                y_pos[0,j_id] = w
-                y_frame[h][w][j_id] = 1
-                y_blur[:,:, j_id] = decay_mask(y_frame[:, :, j_id])
+        for frame in range(frames):
+          for cam_id in [2,3]:
+            # Load projection matrix for specific cam
+            if cam_id == 2:
+              p_mat_cam = p_mat_cam2
+            else:
+              p_mat_cam = p_mat_cam3
 
-              minibatch[count%num_of_frames] = y_blur
-              count += 1 
-              if ((count%num_of_frames) == 0):
-                # Path where to save y files
-                np.save('/.../y{}.npy'.format(count//num_of_frames),minibatch)
+            # y_train generation
+            y_pos = np.zeros(shape=(2,joints))
+            y_homog = np.concatenate([y_h5['XYZ'][frame], np.ones([1, joints])], axis=0)
+            y_frame = np.zeros(shape=(img_rows,img_cols,joints))
+            y_blur = np.empty(shape=(260,344,13))
+            for j_id in range(joints):
+              y_pix_coords = np.matmul(p_mat_cam, y_homog[:,j_id])
+              y_pix_coords = y_pix_coords / y_pix_coords[-1]
+              h = (img_rows - y_pix_coords[1]).astype(np.int32)
+              w = y_pix_coords[0].astype(np.int32)
+              y_pos[1,j_id] = h
+              y_pos[0,j_id] = w
+              y_frame[h][w][j_id] = 1
+              y_blur[:,:, j_id] = decay_mask(y_frame[:, :, j_id])
+
+            minibatch[count%num_of_frames] = y_blur
+            count += 1 
+            if ((count%num_of_frames) == 0):
+              # Path where to save y files
+              np.save('/.../y{}.npy'.format(count//num_of_frames),minibatch)
           
     print('subject {}'.format(subj))
