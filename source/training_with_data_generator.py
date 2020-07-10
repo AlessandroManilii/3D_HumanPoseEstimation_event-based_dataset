@@ -1,4 +1,3 @@
-
 import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow.keras import initializers
@@ -201,7 +200,7 @@ class DataGenerator(tf.keras.utils.Sequence):
         for i, ID in enumerate(list_IDs_temp):
           x_file = np.load('/' + str(ID) + '.npy')
           y_file = np.load('/' + str(ID) + '.npy')
-          for frame in range(8):
+          for frame in range(self.minibatch_mult):
             # Store sample
             x[count] = x_file[frame]            
             # Store label
@@ -211,13 +210,13 @@ class DataGenerator(tf.keras.utils.Sequence):
         return x, y
 
 # Datasets
-num_of_file = 
-val_file = int(num_of_file*0.2) # Validation data is 20% of training data
+num_of_files = 
+num_of_val_files = int(num_of_files*0.2) # Validation data is 20% of training data
 
-list_IDs = random.sample(range(0, num_of_file), num_of_file)
+list_IDs = random.sample(range(0, num_of_files), num_of_files)
 
-train_set = list_IDs[0:-val_file]
-validation_set = list_IDs[-val_file:]
+train_set = list_IDs[0:-num_of_val_files]
+validation_set = list_IDs[-num_of_val_files:]
 
 # Generators
 training_generator = DataGenerator(list_IDs = train_set)
@@ -256,4 +255,3 @@ history = model.fit_generator(generator=training_generator,
                     verbose=1)
                     
 history.history
-model.save('/')
