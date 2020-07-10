@@ -46,7 +46,7 @@ for subj in subjects:
             count += 1
             if ((count%num_of_frames) == 0):
               # Path to x files
-              np.save('/'.format(count//num_of_frames),minibatch)
+              np.save('/.../x{}.npy'.format(count//num_of_frames),minibatch)
               
   print('subject {}'.format(subj))
 
@@ -96,6 +96,6 @@ for subj in subjects:
               count += 1 
               if ((count%num_of_frames) == 0):
                 # Path where to save y files
-                np.save('/'.format(count//num_of_frames),minibatch)
+                np.save('/.../y{}.npy'.format(count//num_of_frames),minibatch)
           
     print('subject {}'.format(subj))
