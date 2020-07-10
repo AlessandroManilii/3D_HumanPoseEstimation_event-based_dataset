@@ -1,3 +1,5 @@
+# Remember to set cam_id among following [0,1,2,3] corresponding to camera [4,1,3,2] in order to fix a specific camera to test
+
 import tensorflow.keras.backend as k
 from tensorflow.keras.models import load_model
 from os.path import join
@@ -7,15 +9,17 @@ import cv2
 import pandas as pd
 import pickle
 
-#where .h5 files are stored
-h5_dir = r'C:\ '
-#where P_matrices and unprocessed data are stored
-dataset_dir = r'C:\ '
+# Where .h5 files are stored
+h5_dir = '/...'
+
+# Where P_matrices and unprocessed data are stored
+dataset_dir = '/...'
 P_mat_dir = join(dataset_dir, 'P_matrices')
 
-# costants
-H = 260;
-W = 344;
+# Frame dimensions
+H = 260
+W = 344
+
 num_joints = 13
 
 subjects = [13,14,15,16,17]
@@ -23,7 +27,7 @@ sessions = [1,2,3,4,5]
 moves = [[1,2,3,4,5,6,7,8],[1,2,3,4,5,6],[1,2,3,4,5,6],[1,2,3,4,5,6,],[1,2,3,4,5,6,7]]
 
 # Cam_id in range [0,1,2,3] corresponds to camera [4,1,3,2]
-cam_id = 3
+cam_id = 
 
 # Gaussian blur filter
 def decay_heatmap(heatmap, sigma2=4):
@@ -117,7 +121,6 @@ writer = pd.ExcelWriter(r'C:\ ', engine='xlsxwriter')
 df.to_excel(writer,index=False)
 writer.save()
 
-# Save max predictions' coordinates in local file
+# Save max predictions' coordinates in local file 
 with open(r'C:\ ', "wb") as fp:
     pickle.dump(p_coords, fp)
-
