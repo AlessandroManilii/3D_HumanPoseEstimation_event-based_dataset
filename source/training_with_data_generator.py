@@ -7,7 +7,6 @@ import keras
 import random
 
 # Define model
-
 initializer = initializers.VarianceScaling(scale=1,mode='fan_avg',distribution='uniform',seed=None)
 bias_init = initializers.zeros()
 
@@ -156,9 +155,9 @@ outputs = layers.Activation(trainable=True, dtype='float32', activation='relu')(
 
 model = tf.keras.Model(inputs=inputs, outputs=outputs)
 
-#Data Generator
+# Data Generator
 class DataGenerator(tf.keras.utils.Sequence):
-    'Generates data for Keras'
+    # Define parameters
     def __init__(self, list_IDs, minibatch_mult=4, batch_size=32, dim=(260,344), joints=13):
         'Initialization'
         self.dim = dim
@@ -169,12 +168,12 @@ class DataGenerator(tf.keras.utils.Sequence):
         self.on_epoch_end()
 
     def __len__(self):
-        'Denotes the number of batches per epoch'
+        # Denotes the number of batches per epoch
         return int(np.floor(len(self.list_IDs) / self.minibatch_mult))
 
     def __getitem__(self, index):
-        'Generate one batch of data'
-        # Generate indexes of the batch
+   
+        # Generate indexes for a batch of data
         indexes = self.indexes[index*self.minibatch_mult:(index+1)*self.minibatch_mult]
 
         # Find list of IDs
@@ -186,12 +185,13 @@ class DataGenerator(tf.keras.utils.Sequence):
         return x, y
 
     def on_epoch_end(self):
-        'Updates indexes after each epoch'
+      
+        # Updates indexes after each epoch'
         self.indexes = np.arange(len(self.list_IDs))       
         np.random.shuffle(self.indexes)
 
     def __data_generation(self, list_IDs_temp):
-        'Generates data containing batch_size samples' # X : (n_samples, *dim, n_channels)
+        
         # Initialization
         x = np.empty((self.batch_size, *self.dim))
         y = np.empty((self.batch_size, *self.dim, self.joints))        
@@ -212,7 +212,7 @@ class DataGenerator(tf.keras.utils.Sequence):
 
 # Datasets
 num_of_file = 
-val_file = int(num_of_file*0.2)
+val_file = int(num_of_file*0.2) # Validation data is 20% of training data
 
 list_IDs = random.sample(range(0, num_of_file), num_of_file)
 
@@ -223,12 +223,18 @@ validation_set = list_IDs[-val_file:]
 training_generator = DataGenerator(list_IDs = train_set)
 validation_generator = DataGenerator(list_IDs = validation_set)
 
+# Loss function 
+def mse2D(y_true, y_pred):
+  mean_over_ch = k.mean(k.square(y_pred - y_true), axis=-1)
+  mean_over_w = k.mean(mean_over_ch, axis=-1)
+  mean_over_h = k.mean(mean_over_w, axis=-1)
+  return mean_over_h
 
 model.compile(
     # Optimizer
     optimizer='RMSprop',
     # Loss function to minimize
-    loss = tf.keras.losses.MeanSquaredError()
+    loss = mse2D
 )
 
 def scheduler(epoch):
