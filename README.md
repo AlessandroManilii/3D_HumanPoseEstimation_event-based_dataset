@@ -20,5 +20,5 @@ Training can be executed through *training_with_data_generator.py*.
 
 For testing purpouses two variants are presented:
 
-- *testing_without_conf* 
-- *testing_with_conf* in which a confidence threshold can be set on predicted positions probability.
+- *testing_without_conf.py* 
+- *testing_with_conf.py* in which can be set a confidence threshold on predicted positions probability.
