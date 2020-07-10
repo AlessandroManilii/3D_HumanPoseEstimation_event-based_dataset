@@ -20,9 +20,8 @@ moves = [[1,2,3,4,5,6,7,8],[1,2,3,4,5,6],[1,2,3,4,5,6],[1,2,3,4,5,6,],[1,2,3,4,5
 p_mat_cam3 = np.load('.../P_mtx/P2.npy')
 p_mat_cam2 = np.load('.../P_mtx/P3.npy')
 
-# Counters for data generator
+# Counter for data generator
 count=0
-count_ID=0
 
 minibatch = np.empty(shape=(num_of_frames, img_rows, img_cols))
 
@@ -39,17 +38,16 @@ for subj in subjects:
         x_h5 = h5py.File(x_path, 'r')
 
         frames = x_h5['DVS'].shape[0]
-        
-        for cam_id in [2,3]:
-          
-          for frame in range(frames):
+
+        for frame in range(frames):
+          for cam_id in [2,3]:
             # x_train generation
-            minibatch[count%8] = x_h5['DVS'][frame, :, :344, cam_id]            
+            minibatch[count%num_of_frames] = x_h5['DVS'][frame, :, :344, cam_id]            
             count += 1
-            if ((count%8) == 0):
+            if ((count%num_of_frames) == 0):
               # Path to x files
-              np.save('/'.format(count_ID),minibatch)
-              count_ID += 1
+              np.save('/'.format(count//num_of_frames),minibatch)
+              
   print('subject {}'.format(subj))
 
 # Gaussian blur filter
@@ -71,35 +69,33 @@ for subj in subjects:
         # Create label mask (260x344x13 array with ones in correspondence to joints predicted positions )
         frames = y_h5['XYZ'].shape[0]
         
-        for cam_id in [2,3]:
-
-          # Load projection matrix for specific cam
-          if cam_id == 2:
-            p_mat_cam = p_mat_cam2
-          else:
-            p_mat_cam = p_mat_cam3
-          
           for frame in range(frames):
-            # y_train generation
-            y_pos = np.zeros(shape=(2,joints))
-            y_homog = np.concatenate([y_h5['XYZ'][frame], np.ones([1, 13])], axis=0)
-            y_frame = np.zeros(shape=(img_rows,img_cols,joints))
-            y_blur = np.empty(shape=(260,344,13))
-            for j_id in range(joints):
-              y_pix_coords = np.matmul(p_mat_cam, y_homog[:,j_id])
-              y_pix_coords = y_pix_coords / y_pix_coords[-1]
-              h = (img_rows - y_pix_coords[1]).astype(np.int32)
-              w = y_pix_coords[0].astype(np.int32)
-              y_pos[1,j_id] = h
-              y_pos[0,j_id] = w
-              y_frame[h][w][j_id] = 1
-              y_blur[:,:, j_id] = decay_mask(y_frame[:, :, j_id])
+            for cam_id in [2,3]:
+              # Load projection matrix for specific cam
+              if cam_id == 2:
+                p_mat_cam = p_mat_cam2
+              else:
+                p_mat_cam = p_mat_cam3
+                
+              # y_train generation
+              y_pos = np.zeros(shape=(2,joints))
+              y_homog = np.concatenate([y_h5['XYZ'][frame], np.ones([1, joints])], axis=0)
+              y_frame = np.zeros(shape=(img_rows,img_cols,joints))
+              y_blur = np.empty(shape=(260,344,13))
+              for j_id in range(joints):
+                y_pix_coords = np.matmul(p_mat_cam, y_homog[:,j_id])
+                y_pix_coords = y_pix_coords / y_pix_coords[-1]
+                h = (img_rows - y_pix_coords[1]).astype(np.int32)
+                w = y_pix_coords[0].astype(np.int32)
+                y_pos[1,j_id] = h
+                y_pos[0,j_id] = w
+                y_frame[h][w][j_id] = 1
+                y_blur[:,:, j_id] = decay_mask(y_frame[:, :, j_id])
 
-            minibatch[count%8] = y_blur
-            count += 1 
-            if ((count%8) == 0):
-              #path where to save y files
-              np.save('/'.format(count_ID),minibatch)
-              count_ID += 1
+              minibatch[count%num_of_frames] = y_blur
+              count += 1 
+              if ((count%num_of_frames) == 0):
+                # Path where to save y files
+                np.save('/'.format(count//num_of_frames),minibatch)
           
     print('subject {}'.format(subj))
