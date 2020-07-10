@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow.keras import initializers
 import numpy as np
-import keras
+import keras.backend as k
 import random
 
 # Define model
