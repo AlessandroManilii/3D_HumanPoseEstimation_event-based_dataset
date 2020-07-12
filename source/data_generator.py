@@ -51,6 +51,12 @@ for subj in subjects:
               
   print('subject {}'.format(subj))
 
+if ((count%num_of_frames) != 0):
+  #np.reshape(x_minibatch, [count%num_of_frames, img_rows, img_cols])
+  np.save('/.../x{}.npy'.format((count//num_of_frames)),x_minibatch[:count%num_of_frames])
+
+count=0
+  
 # Gaussian blur filter
 def decay_mask(heatmap, sigma2=2):
     mask = cv2.GaussianBlur(heatmap,(0,0),sigma2)
@@ -100,3 +106,6 @@ for subj in subjects:
               np.save('/.../y{}.npy'.format(count//num_of_frames), y_minibatch)
           
     print('subject {}'.format(subj))
+    
+if ((count%num_of_frames) != 0):
+  np.save('/.../y{}.npy'.format(count//num_of_frames),y_minibatch[:count%num_of_frames])
