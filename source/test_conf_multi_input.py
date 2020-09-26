@@ -10,8 +10,8 @@ import time
 
 start_time = time.time()
 
-h5_dir = r'D:\Output\h5_dataset_7500_events\346x260'
-dataset_dir = r'D:\Nuova cartella'
+h5_dir = r''
+dataset_dir = r''
 P_mat_dir = join(dataset_dir, 'P_matrices')
 
 # costants
@@ -70,7 +70,7 @@ def get_2Dcoords_and_heatmaps_label(vicon_xyz, cam_id):
     return np.stack((v, u), axis=-1), mask, label_heatmaps
 
 # import model
-trained_model=load_model(r'C:\Users\Leonardo\Desktop\Università\Computer Vision\Progetto\Modelli\model_19.h5', custom_objects={'mse2D': mse2D}, compile=False)
+trained_model=load_model(r'', custom_objects={'mse2D': mse2D}, compile=False)
 
 def move_mpjpe_calculation(test_set, label_set):
     # predict with CNN, extract predicted 2D coordinates, and return mpjpe for frames set of a specific move
@@ -138,19 +138,19 @@ for subj in subjects:
 
 
 df = pd.DataFrame(mpjpe_mtx_2)
-writer = pd.ExcelWriter(r'C:\Users\Leonardo\Desktop\mpjpes_cam2_conf01_multiview_model_19.xlsx', engine='xlsxwriter')
+writer = pd.ExcelWriter(r'', engine='xlsxwriter')
 df.to_excel(writer,index=False)
 writer.save() 
 
-with open(r'C:\Users\Leonardo\Desktop\p_coords_cam2_conf01_multiview_model19.txt',"wb") as fp:  # Pickling
+with open(r'',"wb") as fp:  # Pickling
     pickle.dump(p_coords2, fp)
 
 df = pd.DataFrame(mpjpe_mtx_3)
-writer = pd.ExcelWriter(r'C:\Users\Leonardo\Desktop\mpjpes_cam3_conf01_multiview_model_19.xlsx', engine='xlsxwriter')
+writer = pd.ExcelWriter(r'', engine='xlsxwriter')
 df.to_excel(writer,index=False)
 writer.save()
 
-with open(r'C:\Users\Leonardo\Desktop\p_coords_cam3_conf01_multiview_model19.txt',"wb") as fp:  # Pickling
+with open(r'',"wb") as fp:  # Pickling
     pickle.dump(p_coords3, fp)
 
 print("--- %s seconds ---" % (time.time() - start_time))
