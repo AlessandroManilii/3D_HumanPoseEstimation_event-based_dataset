@@ -404,7 +404,7 @@ def scheduler(epoch):
 
 class CustomSaver(tf.keras.callbacks.Callback):
     def on_epoch_end(self, epoch, logs={}):        
-      self.model.save("/home/vrai/RiccardoRosati/checkpoint/model_{}.h5".format(epoch))
+      self.model.save("/model_{}.h5".format(epoch))
 
 callback = [tf.keras.callbacks.LearningRateScheduler(scheduler), CustomSaver()]
 
@@ -419,4 +419,4 @@ history.history
 
 print("--- %s seconds ---" % (time.time() - start_time))
 
-model.save('/home/vrai/RiccardoRosati/3D_final_model.h5') 
+model.save('') 
