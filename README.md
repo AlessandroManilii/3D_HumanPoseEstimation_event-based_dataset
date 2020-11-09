@@ -14,11 +14,10 @@ To preprocess DVS and Vicon data were followed steps described and implemented i
 
 The approach used is the same described in *E. Calabrese, G. Taverni, C. Awai Easthope, S. Skriabine, F. Corradi, L. Longinotti, K. Eng, and T. Delbruck, “DHP19: Dynamic
 vision sensor 3D human pose dataset,” in IEEE Conf. Comput. Vis. Pattern Recog. Workshops (CVPRW), 2019*.
-The convolutional neural network used to estimate the human pose is implemented according to the architecture described in the above mentioned paper.
+Two different CNN architecture are used, the single-input one described in the above mentioned paper and the multi-input one in the official paper related to this work (paper.pdf).
 
-Training can be executed through *training_with_data_generator.py*.
+Training can be executed for each case respectively through *single_input_training.py* and *multi_input_training.py* 
 
-For testing purpouses two variants are presented:
+For testing purpouses use *testing_with_conf.py* in which can be set a confidence threshold on predicted positions probability; eventually set confidence parameter to 0 to avoid using confidence threshold mechanism.
 
-- *testing_without_conf.py* 
-- *testing_with_conf.py* in which can be set a confidence threshold on predicted positions probability.
+More detailed info can ben found in paper.pdf.
