@@ -90,6 +90,8 @@ for subj in train_subjects:
     print('subject {} sess {}'.format(subj,session))
 print('training frames {}'.format(count))
 
+val_file = 0
+
 for subj in val_subjects:
   for session in sessions:
     for move in moves[sessions.index(session)]:
@@ -140,6 +142,7 @@ for subj in val_subjects:
               np.save('/dataset_{}/x{}.npy'.format(cam_id,count), x_minibatch)
               np.save('/dataset_{}/y{}.npy'.format(cam_id,count), y_minibatch)  
             count += 1      
+            val_file += 1
     print('subject {} sess {}'.format(subj,session))
+print('tot val frames {}'.format(val_file))
 print('total frames {}'.format(count))
-
