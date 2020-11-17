@@ -198,8 +198,8 @@ class DataGenerator(tf.keras.utils.Sequence):
 
         # Generate data
         for i, ID in enumerate(list_IDs_temp):
-          x_file = np.load('/' + str(ID) + '.npy')
-          y_file = np.load('/' + str(ID) + '.npy')
+          x_file = np.load('/.../x' + str(ID) + '.npy')
+          y_file = np.load('/.../y' + str(ID) + '.npy')
           for frame in range(self.minibatch_mult):
             # Store sample
             x[count] = x_file[frame]            
