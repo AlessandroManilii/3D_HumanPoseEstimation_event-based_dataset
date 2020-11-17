@@ -15,7 +15,6 @@ train_subjects = [1,2,3,4,5,6,7,8,9]
 val_subjects = [10,11,12]
 sessions = [1,2,3,4,5]
 moves = [[1,2,3,4,5,6,7,8],[1,2,3,4,5,6],[1,2,3,4,5,6],[1,2,3,4,5,6],[1,2,3,4,5,6,7]]
-
 cam_ids = [2,3]
 
 # Projection matrices
@@ -46,14 +45,11 @@ for subj in train_subjects:
         x_h5 = h5py.File(x_path, 'r')
         y_path = join(path + '_label.h5')
         y_h5 = h5py.File(y_path, 'r')
-
         # Create label mask (260x344x13 array with ones in correspondence to joints predicted positions)
         frames = y_h5['XYZ'].shape[0]
-
         for frame in range(frames):
           y_blur = np.empty(shape=(2, 260, 344, 13))
           is_good = True
-          
           for cam_id in [2,3]:
           #  if is_good == False:
            #   break
@@ -66,7 +62,6 @@ for subj in train_subjects:
             # y_train generation
             y_homog = np.concatenate([y_h5['XYZ'][frame], np.ones([1, joints])], axis=0)
             y_frame = np.zeros(shape=(img_rows, img_cols, joints))
-            
             for j_id in range(joints):
               y_pix_coords = np.matmul(p_mat_cam, y_homog[:, j_id])
               y_pix_coords = y_pix_coords / y_pix_coords[-1]
@@ -103,10 +98,8 @@ for subj in val_subjects:
         x_h5 = h5py.File(x_path, 'r')
         y_path = join(path + '_label.h5')
         y_h5 = h5py.File(y_path, 'r')
-
         # Create label mask (260x344x13 array with ones in correspondence to joints predicted positions)
         frames = y_h5['XYZ'].shape[0]
-
         for frame in range(frames):
           y_blur = np.empty(shape=(2, 260, 344, 13))
           is_good = True
@@ -122,7 +115,6 @@ for subj in val_subjects:
             # y_train generation
             y_homog = np.concatenate([y_h5['XYZ'][frame], np.ones([1, joints])], axis=0)
             y_frame = np.zeros(shape=(img_rows, img_cols, joints))
-            
             for j_id in range(joints):
               y_pix_coords = np.matmul(p_mat_cam, y_homog[:, j_id])
               y_pix_coords = y_pix_coords / y_pix_coords[-1]
