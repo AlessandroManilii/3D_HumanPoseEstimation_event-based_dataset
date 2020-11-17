@@ -10,18 +10,17 @@ import time
 
 start_time = time.time()
 
-h5_dir = r''
-dataset_dir = r''
+h5_dir = '/.../' 
+# path to DHP19 download folder
+dataset_dir = '/.../'
 P_mat_dir = join(dataset_dir, 'P_matrices')
 
 # costants
 H = 260;
 W = 344;
 num_joints = 13
-
 cam_ids = [2,3]
-
-confidence_threshold = 0.1
+confidence_threshold = # any value in range [0,1]
 
 # Gaussian blur filter
 def decay_heatmap(heatmap, sigma2=4):
@@ -35,7 +34,6 @@ def mse2D(y_true, y_pred):
     mean_over_w = k.mean(mean_over_ch, axis=-1)
     mean_over_h = k.mean(mean_over_w, axis=-1)
     return mean_over_h
-
 
 def get_2Dcoords_and_heatmaps_label(vicon_xyz, cam_id):
     # From 3D label, get 2D label coordinates and heatmaps for selected camera
@@ -125,7 +123,7 @@ for subj in subjects:
                 mpjpe_mtx_2.append([])
                 mpjpe_mtx_3.append([])
             else:
-                datafile = r'S{}_session{}_mov{}_7500events'.format(subj, session, move)
+                datafile = '/.../S{}_session{}_mov{}_7500events'.format(subj, session, move)
                 path_x = join(h5_dir, datafile + '.h5')
                 path_y = join(h5_dir, datafile + '_label.h5')
                 x_h5 = h5py.File(path_x, 'r')
@@ -136,21 +134,18 @@ for subj in subjects:
                 mpjpe_mtx_3.append(mpjpe3)
         print('Subj{}_sess{}'.format(subj,session))
 
-
 df = pd.DataFrame(mpjpe_mtx_2)
 writer = pd.ExcelWriter(r'', engine='xlsxwriter')
 df.to_excel(writer,index=False)
 writer.save() 
-
-with open(r'',"wb") as fp:  # Pickling
+with open('/.../',"wb") as fp:  # Pickling
     pickle.dump(p_coords2, fp)
 
 df = pd.DataFrame(mpjpe_mtx_3)
 writer = pd.ExcelWriter(r'', engine='xlsxwriter')
 df.to_excel(writer,index=False)
 writer.save()
-
-with open(r'',"wb") as fp:  # Pickling
+with open('/.../',"wb") as fp:  # Pickling
     pickle.dump(p_coords3, fp)
 
 print("--- %s seconds ---" % (time.time() - start_time))
