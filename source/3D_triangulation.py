@@ -5,9 +5,9 @@ import pandas as pd
 import pickle
 
 #where the h5 files are stored
-h5_dir = r'C:\ '
+h5_dir = r'/.../'
 #path DHP19 downloaded folder
-dataset_dir = r'C:\ '
+dataset_dir = r'/.../ '
 P_mat_dir = join(dataset_dir, 'P_matrices')
 
 
@@ -53,7 +53,6 @@ def find_intersection(P0,P1):
     n = (P1-P0) / np.linalg.norm(P1-P0,axis=1)[:,np.newaxis] # normalized
     # generate the array of all projectors
     projs = np.eye(n.shape[1]) - n[:,:,np.newaxis]*n[:,np.newaxis]  # I - n*n.T
-
     # generate R matrix and q vector
     R = projs.sum(axis=0)
     q = (np.matmul(projs,P0[:,:,np.newaxis])).sum(axis=0)
