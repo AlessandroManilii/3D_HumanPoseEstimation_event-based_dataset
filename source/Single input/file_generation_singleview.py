@@ -78,7 +78,7 @@ for subj in train_subjects:
 
         print('subject {} session {}'.format(subj,session))
     print('subject {} frames {}'.format(subj, count))
-print('tot frames'.format(count))
+print('training frames'.format(count))
 
 val_file = 0
 
@@ -132,4 +132,5 @@ for subj in val_subjects:
         print('subject {} session {}'.format(subj,session))
     print('subject {} frames {}'.format(subj, val_file))
 print('tot val frames {}'.format(val_file))
+print('tot frames {}'.format(count))
 
