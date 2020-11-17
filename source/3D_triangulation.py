@@ -4,9 +4,12 @@ from os.path import join
 import pandas as pd
 import pickle
 
-h5_dir = r'...path...'
-dataset_dir = r'...path...'
+#where the h5 files are stored
+h5_dir = r'C:\ '
+#path DHP19 downloaded folder
+dataset_dir = r'C:\ '
 P_mat_dir = join(dataset_dir, 'P_matrices')
+
 
 # Costants
 H = 260;
@@ -23,10 +26,10 @@ P_mat_cam3 = np.load(join(P_mat_dir,'P3.npy'))
 cameras_pos = np.load(join(P_mat_dir,'camera_positions.npy'))
 
 # Importing saved max predictions' coordinates
-with open(r'...path...\/file_name.txt', "rb") as fp2:
+with open(r'/.../p_coords2.txt', "rb") as fp2:
     p_max_coords_cam2_ = pickle.load(fp2)
 
-with open(r'...path...\/file_name.txt', "rb") as fp3:
+with open(r'/.../p_coords3.txt', "rb") as fp3:
     p_max_coords_cam3_ = pickle.load(fp3)
 
 p_max_coords_cam2 = np.array(p_max_coords_cam2_)
@@ -72,8 +75,8 @@ mpjpe_3D_mtx=[]
 for subj in subjects:
     for sess in sessions:
         for mov in moves[sessions.index(sess)]:
-            if (subj == 14 and sess == 5 and mov == 3):
-                mpjpe_3D_mtx.append([])
+            if (subj == 14 and sess == 5 and mov == 3): #missing value
+                mpjpe_3D_mtx.append([]) 
             else:
                 # load input and 3D label files
                 datafile = 'S{}_session{}_mov{}_7500events'.format(subj, sess, mov)
@@ -108,7 +111,6 @@ for subj in subjects:
 
 # Save 3D mpjpe values (in mm) in excel file with each table's row corresponding to a single move
 df = pd.DataFrame(mpjpe_3D_mtx)
-#writer = pd.ExcelWriter(r'C:\Users\aless\Documents\Universita\MAGISTRALE\Computer vision-Deep learning\progetto\test\2D model\test 10 single frame _ save model per epoch\test_single_input_multi_conf\triangulation_conf0.15.xlsx', engine='xlsxwriter')
-writer = pd.ExcelWriter(r'...path.../file_name.xlsx', engine='xlsxwriter')
+writer = pd.ExcelWriter(r'/.../3D_mpjpe.xlsx', engine='xlsxwriter')
 df.to_excel(writer,index=False)
 writer.save()
