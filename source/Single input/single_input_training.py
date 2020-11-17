@@ -210,9 +210,8 @@ class DataGenerator(tf.keras.utils.Sequence):
         return x, y
 
 # Datasets
-num_of_files = 
-num_of_val_files = int(num_of_files*0.2) # Validation data is 20% of training data
-
+num_of_files = # the actual value is printed at the end of file_generation_multiview.py script as tot frames = ...
+num_of_val_files = val_num # the actual value is printed at the end of file_generation_multiview.py script as tot val frames = ...
 list_IDs = random.sample(range(0, num_of_files), num_of_files)
 
 train_set = list_IDs[0:-num_of_val_files]
