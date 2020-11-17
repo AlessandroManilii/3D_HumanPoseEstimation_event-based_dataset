@@ -9,7 +9,7 @@ import pickle
 
 #where the h5 files are stored
 h5_dir = r'C:\ '
-#folder where is saved the DHP19 dataset
+#path DHP19 downloaded folder
 dataset_dir = r'C:\ '
 P_mat_dir = join(dataset_dir, 'P_matrices')
 
@@ -25,7 +25,7 @@ moves = [[1,2,3,4,5,6,7,8],[1,2,3,4,5,6],[1,2,3,4,5,6],[1,2,3,4,5,6,],[1,2,3,4,5
 # Cam_id in range [0,1,2,3] corresponds to camera [4,1,3,2]
 cam_id = 3
 
-confidence_threshold = 0.3
+confidence_threshold = #can assume any value between 0 and 1
 
 
 # Gaussian blur filter
