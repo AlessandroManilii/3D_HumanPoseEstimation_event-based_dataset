@@ -349,10 +349,10 @@ class DataGenerator(tf.keras.utils.Sequence):
 
         # Generate data
         for i, ID in enumerate(list_IDs_temp):
-            x_file_2 = np.load('/home/vrai/RiccardoRosati/dataset_2/x' + str(ID) + '.npy')
-            x_file_3 = np.load('/home/vrai/RiccardoRosati/dataset_3/x' + str(ID) + '.npy')
-            y_file_2 = np.load('/home/vrai/RiccardoRosati/dataset_2/y' + str(ID) + '.npy')
-            y_file_3 = np.load('/home/vrai/RiccardoRosati/dataset_3/y' + str(ID) + '.npy')
+            x_file_2 = np.load('/.../dataset_2/x' + str(ID) + '.npy')
+            x_file_3 = np.load('/.../dataset_3/x' + str(ID) + '.npy')
+            y_file_2 = np.load('/.../dataset_2/y' + str(ID) + '.npy')
+            y_file_3 = np.load('/.../dataset_3/y' + str(ID) + '.npy')
             # Store sample
             x_2[count] = x_file_2[:,:,np.newaxis]
             x_3[count] = x_file_3[:,:,np.newaxis]       
@@ -368,8 +368,8 @@ class DataGenerator(tf.keras.utils.Sequence):
         return x, y
 
 # Datasets
-num_of_file = 62665
-val_file = 16578  #=62665-46087 Validation data is 20% of training data
+num_of_files = # the actual value is printed at the end of file_generation_singleview.py script as tot frames = ...
+num_of_val_files = val_num # the actual value is printed at the end of file_generation_singleview.py script as tot val frames = ...
 
 list_IDs = list(range(0, num_of_file))
 
