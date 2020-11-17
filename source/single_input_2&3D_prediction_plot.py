@@ -8,7 +8,7 @@ import cv2
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-confidence_threshold = 0
+confidence_threshold = #can be any value in range (0,1)
 
 def mse2D(y_true, y_pred):
     mean_over_ch = K.mean(K.square(y_pred - y_true), axis=-1)
@@ -17,19 +17,19 @@ def mse2D(y_true, y_pred):
     return mean_over_h
 
 #select model
-trained_model=load_model((r''), custom_objects={'mse2D': mse2D})
+trained_model=load_model((r'/.../'), custom_objects={'mse2D': mse2D})
 
 
 
-# Folder where .h5 files are generated, 346x260/
-datadir = r''
+# Folder where .h5 files are stored
+datadir = r'/.../'
 
 # Selected recording
 subj, sess, mov = 13, 2, 4
 # Which image of the selected recording to use
 
 #where p_matrix are stored
-P_mat_dir = r''
+P_mat_dir = r'/.../'
 
 
 # constant parameters
@@ -93,7 +93,7 @@ def predict_CNN_extract_skeleton_2d(ch_idx, imgidx, p_coords_max, verbose=False)
             p_coords_max_tmp = np.argwhere(pred_j_map == np.max(pred_j_map))
             p_coords_max[j_idx] = p_coords_max_tmp[0]
 
-        # Confidence of the joint
+        
                    
     y_2d_float = y_2d.astype(np.float)
     # where mask is 0, set gt back to NaN
@@ -116,7 +116,7 @@ def plot_2d(dvs_frame, sample_gt, sample_pred,cam):
     plt.savefig(r'\2D\{}{}.jpg'.format(cam,imgidx), bbox_inches='tight')
 
 
-    # For 3D triangulation and plot:
+  
 
 def project_uv_xyz_cam(uv, M):
     # adapted from: https://www.cc.gatech.edu/~hays/compvision/proj3/
@@ -220,10 +220,10 @@ y_h5 = h5py.File(path_y, 'r')
 p_coords_max_2 = np.zeros((13,2))
 p_coords_max_3 = np.zeros((13,2))
 frames = x_h5['DVS'][:, :, :344, 2].shape[0]
-for imgidx in range(76):
+for imgidx in range(frames):
     img_cam2, gt_2d_cam2, pred_2d_cam2 = predict_CNN_extract_skeleton_2d(3, imgidx, p_coords_max_2, verbose=True)
     img_cam3, gt_2d_cam3, pred_2d_cam3 = predict_CNN_extract_skeleton_2d(2, imgidx, p_coords_max_3, verbose=True)
-    # Import model
+
 
 
 
