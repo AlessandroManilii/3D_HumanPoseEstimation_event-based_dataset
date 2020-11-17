@@ -19,8 +19,8 @@ moves = [[1,2,3,4,5,6,7,8],[1,2,3,4,5,6],[1,2,3,4,5,6],[1,2,3,4,5,6],[1,2,3,4,5,
 cam_ids = [2,3]
 
 # Projection matrices
-p_mat_cam3 = np.load('/P2.npy')
-p_mat_cam2 = np.load('/P3.npy')
+p_mat_cam3 = np.load('/.../P2.npy')
+p_mat_cam2 = np.load('/.../P3.npy')
 
 # Counter for data generator
 count = 0
@@ -41,7 +41,7 @@ for subj in train_subjects:
         continue
       else:
         #path where to find h.5 files
-        path = '/S{}_session{}_mov{}_7500events'.format(subj, session, move)
+        path = '/.../S{}_session{}_mov{}_7500events'.format(subj, session, move)
         x_path = join(path + '.h5')
         x_h5 = h5py.File(x_path, 'r')
         y_path = join(path + '_label.h5')
@@ -84,8 +84,8 @@ for subj in train_subjects:
               x_minibatch = x_h5['DVS'][frame, :, :344, cam_id]
               y_minibatch = y_blur[cam_ids.index(cam_id)]
               #path where to save frames from 2 different cams
-              np.save('/dataset_{}/x{}.npy'.format(cam_id,count), x_minibatch)
-              np.save('/dataset_{}/y{}.npy'.format(cam_id,count), y_minibatch)  
+              np.save('/.../dataset_{}/x{}.npy'.format(cam_id,count), x_minibatch)
+              np.save('/.../dataset_{}/y{}.npy'.format(cam_id,count), y_minibatch)  
             count += 1      
     print('subject {} sess {}'.format(subj,session))
 print('training frames {}'.format(count))
@@ -98,7 +98,7 @@ for subj in val_subjects:
       if (subj == 1 and session == 4 and move == 2) or (subj == 4 and session == 3 and (move == 4 or move == 6)):
         continue
       else:
-        path = '/S{}_session{}_mov{}_7500events'.format(subj, session, move)
+        path = '/.../S{}_session{}_mov{}_7500events'.format(subj, session, move)
         x_path = join(path + '.h5')
         x_h5 = h5py.File(x_path, 'r')
         y_path = join(path + '_label.h5')
@@ -139,8 +139,8 @@ for subj in val_subjects:
             for cam_id in [2,3]:
               x_minibatch = x_h5['DVS'][frame, :, :344, cam_id]
               y_minibatch = y_blur[cam_ids.index(cam_id)]
-              np.save('/dataset_{}/x{}.npy'.format(cam_id,count), x_minibatch)
-              np.save('/dataset_{}/y{}.npy'.format(cam_id,count), y_minibatch)  
+              np.save('/.../dataset_{}/x{}.npy'.format(cam_id,count), x_minibatch)
+              np.save('/.../dataset_{}/y{}.npy'.format(cam_id,count), y_minibatch)  
             count += 1      
             val_file += 1
     print('subject {} sess {}'.format(subj,session))
