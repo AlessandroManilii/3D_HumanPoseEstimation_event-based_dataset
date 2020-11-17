@@ -10,6 +10,7 @@ joints = 13
 
 # Training set population
 # Missing values for S1_4_2, S4_3_4, S4_3_6, S14_5_3
+# subjects = [1,2,3,4,5,6,7,8,9,10,11,12]
 train_subjects = [1,2,3,4,5,6,7,8,9]
 val_subjects = [10,11,12]
 sessions = [1,2,3,4,5]
@@ -37,22 +38,18 @@ for subj in train_subjects:
                 path_x = '/.../S{}_session{}_mov{}_7500events'.format(subj, session, move)
                 x_path = join(path_x + '.h5')
                 x_h5 = h5py.File(x_path, 'r')
-
                 path_y = '/.../S{}_session{}_mov{}_7500events'.format(subj, session, move)
                 y_path = join(path_y + '_label.h5')
                 y_h5 = h5py.File(y_path, 'r')
-
                 # Create label mask (260x344x13 array with ones in correspondence to joints predicted positions )
                 frames = y_h5['XYZ'].shape[0]
-
                 for frame in range(frames):
                     for cam_id in [2, 3]:
                         # Load projection matrix for specific cam
                         if cam_id == 2:
                             p_mat_cam = p_mat_cam2
                         else:
-                            p_mat_cam = p_mat_cam3
-
+                            p_mat_cam = p_mat_cam3  
                         # y_train generation
                         y_homog = np.concatenate([y_h5['XYZ'][frame], np.ones([1, joints])], axis=0)
                         y_frame = np.zeros(shape=(img_rows, img_cols, joints))
@@ -70,12 +67,10 @@ for subj in train_subjects:
                                 y_blur[:, :, j_id] = decay_mask(y_frame[:, :, j_id])
                                 is_good = True
                         if is_good == True:
-                            # Path where to save y files
+                            # single frame file used as input and related label(ground truth) are saved with a specific naming method
                             np.save('/.../x{}.npy'.format(count), x_h5['DVS'][frame, :, :344, cam_id])
                             np.save('/.../y{}.npy'.format(count), y_blur)
-
                             count += 1
-
         print('subject {} session {}'.format(subj,session))
     print('subject {} frames {}'.format(subj, count))
 print('training frames'.format(count))
@@ -88,14 +83,11 @@ for subj in val_subjects:
             path_x = '/.../S{}_session{}_mov{}_7500events'.format(subj, session, move)
             x_path = join(path_x + '.h5')
             x_h5 = h5py.File(x_path, 'r')
-
             path_y = '/.../S{}_session{}_mov{}_7500events'.format(subj, session, move)
             y_path = join(path_y + '_label.h5')
             y_h5 = h5py.File(y_path, 'r')
-
             # Create label mask (260x344x13 array with ones in correspondence to joints predicted positions )
             frames = y_h5['XYZ'].shape[0]
-
             for frame in range(frames):
                 for cam_id in [2, 3]:
                     # Load projection matrix for specific cam
@@ -103,7 +95,6 @@ for subj in val_subjects:
                         p_mat_cam = p_mat_cam2
                     else:
                         p_mat_cam = p_mat_cam3
-
                     # y_train generation
                     y_homog = np.concatenate([y_h5['XYZ'][frame], np.ones([1, joints])], axis=0)
                     y_frame = np.zeros(shape=(img_rows, img_cols, joints))
@@ -121,16 +112,12 @@ for subj in val_subjects:
                             y_blur[:, :, j_id] = decay_mask(y_frame[:, :, j_id])
                             is_good = True
                     if is_good == True:
-                    
                         # Path where to save y files
                         np.save('/.../x{}.npy'.format(count),x_h5['DVS'][frame, :, :344, cam_id])
                         np.save('/.../y{}.npy'.format(count), y_blur)
-
                         count += 1
                         val_file += 1
-
         print('subject {} session {}'.format(subj,session))
     print('subject {} frames {}'.format(subj, val_file))
 print('tot val frames {}'.format(val_file))
 print('tot frames {}'.format(count))
-
