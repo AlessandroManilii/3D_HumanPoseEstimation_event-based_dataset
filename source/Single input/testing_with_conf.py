@@ -7,7 +7,9 @@ import cv2
 import pandas as pd
 import pickle
 
+#where the h5 files are stored
 h5_dir = r'C:\ '
+#folder where is saved the DHP19 dataset
 dataset_dir = r'C:\ '
 P_mat_dir = join(dataset_dir, 'P_matrices')
 
@@ -94,7 +96,7 @@ def move_mpjpe_calculation(test_set, label_set, cam_id):
     return mpjpe
 
 # Pretrained model import
-trained_model=load_model(join(dataset_dir,dataset_dir+'\DHP_CNN.model'), custom_objects={'mse2D': mse2D})
+trained_model=load_model('directory_of_the_model_to_test', custom_objects={'mse2D': mse2D})
 
 mpjpe_mtx=[]
 p_coords=[]
@@ -105,7 +107,7 @@ for subj in subjects:
             if (subj == 14 and session == 5 and move == 3):
                 mpjpe_mtx.append([])
             else:
-                datafile = r'S{}_session{}_mov{}_7500events'.format(subj, session, move)
+                datafile = r'/.../S{}_session{}_mov{}_7500events'.format(subj, session, move)
                 path_x = join(h5_dir, datafile + '.h5')
                 path_y = join(h5_dir, datafile + '_label.h5')
                 x_h5 = h5py.File(path_x, 'r')
