@@ -17,15 +17,12 @@ sessions = [1,2,3,4,5]
 moves = [[1,2,3,4,5,6,7,8],[1,2,3,4,5,6],[1,2,3,4,5,6],[1,2,3,4,5,6],[1,2,3,4,5,6,7]]
 cam_ids = [2,3]
 
-# Projection matrices
-p_mat_cam3 = np.load('/.../P2.npy')
-p_mat_cam2 = np.load('/.../P3.npy')
+# Projection matrices saved in DHP19 folder
+p_mat_cam3 = np.load('/.../P_matrices/P2.npy')
+p_mat_cam2 = np.load('/.../P_matrices/P3.npy')
 
 # Counter for data generator
 count = 0
-
-x_minibatch = np.empty(shape=(img_rows, img_cols))
-y_minibatch = np.empty(shape=(img_rows, img_cols, joints))
 
 # Gaussian blur filter
 def decay_mask(heatmap, sigma2=2):
@@ -76,11 +73,9 @@ for subj in train_subjects:
                 #is_good = True
           if is_good:
             for cam_id in [2,3]:
-              x_minibatch = x_h5['DVS'][frame, :, :344, cam_id]
-              y_minibatch = y_blur[cam_ids.index(cam_id)]
-              #path where to save frames from 2 different cams
-              np.save('/.../dataset_{}/x{}.npy'.format(cam_id,count), x_minibatch)
-              np.save('/.../dataset_{}/y{}.npy'.format(cam_id,count), y_minibatch)  
+              # single frame file used as input and related label(ground truth) are saved with a specific naming method
+              np.save('/.../dataset_{}/x{}.npy'.format(cam_id,count), x_h5['DVS'][frame, :, :344, cam_id])
+              np.save('/.../dataset_{}/y{}.npy'.format(cam_id,count), y_blur[cam_ids.index(cam_id)])  
             count += 1      
     print('subject {} sess {}'.format(subj,session))
 print('training frames {}'.format(count))
