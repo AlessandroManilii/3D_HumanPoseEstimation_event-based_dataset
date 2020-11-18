@@ -26,4 +26,4 @@ Training can be executed through *multi_input_training.py*.
 
 For testing purpouses use *testing_with_conf.py* in which can be set a confidence threshold on predicted positions probability; eventually set confidence parameter to 0 to avoid using confidence threshold mechanism.
 
-More detailed info can ben found in CV2020_Workshop.pdf.
+More detailed info in CV2020_Workshop.pdf.
