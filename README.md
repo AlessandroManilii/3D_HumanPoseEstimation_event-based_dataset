@@ -20,10 +20,10 @@ Training can be executed, after executing *file_generation_singleview.py*, throu
 
 ***MIMO architecture***
 
-This is the proposed architecture, described in detail in paper.pdf, which process 2 frames simultaneously making use of shared layers.
+This is the proposed architecture, described in detail in CV2020_Workshop.pdf, which process 2 frames simultaneously making use of shared layers.
 
 Training can be executed through *multi_input_training.py*.
 
 For testing purpouses use *testing_with_conf.py* in which can be set a confidence threshold on predicted positions probability; eventually set confidence parameter to 0 to avoid using confidence threshold mechanism.
 
-More detailed info can ben found in paper.pdf.
+More detailed info can ben found in CV2020_Workshop.pdf.
